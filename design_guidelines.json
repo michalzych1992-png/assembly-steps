@@ -1,0 +1,366 @@
+{
+  "typography": {
+    "font_family_heading": "Outfit, system-ui, sans-serif",
+    "font_family_body": "DM Sans, system-ui, sans-serif",
+    "font_family_mono": "IBM Plex Mono, monospace",
+    "import_css": "@import \"@fontsource-variable/outfit\";\n@import \"@fontsource-variable/dm-sans\";\n@import \"@fontsource/ibm-plex-mono\";",
+    "scale_px": {
+      "display": 56,
+      "h1": 40,
+      "h2": 30,
+      "h3": 22,
+      "h4": 18,
+      "body": 16,
+      "caption": 14
+    },
+    "typesetting_rules": [
+      "Headings (h1, h2, h3) must use font-family Outfit with tracking-tight and font-semibold / font-bold.",
+      "Body and table text must use font-family DM Sans with leading-relaxed.",
+      "Task identifiers (e.g. WMD-2026-089), timestamps, postal codes, and stage counters use IBM Plex Mono.",
+      "Uppercase category markers & stage pills: text-xs tracking-wider font-bold uppercase."
+    ]
+  },
+  "colors": {
+    "surfaces": [
+      {
+        "name": "page",
+        "kind": "solid",
+        "bg": "#0D1117",
+        "on_bg": "#F0F6FC",
+        "on_bg_muted": "#8B949E",
+        "roles": {
+          "brand_primary": "#E11D48",
+          "brand_crimson": "#BE123C",
+          "border": "#21262D",
+          "border_highlight": "#30363D"
+        }
+      },
+      {
+        "name": "panel",
+        "kind": "solid",
+        "bg": "#161B22",
+        "on_bg": "#F0F6FC",
+        "on_bg_muted": "#9BA3AF",
+        "roles": {
+          "accent_red": "#E11D48",
+          "accent_red_hover": "#BE123C",
+          "link": "#F43F5E",
+          "error": "#EF4444",
+          "success": "#10B981",
+          "warning": "#F59E0B"
+        }
+      },
+      {
+        "name": "card_subtle",
+        "kind": "solid",
+        "bg": "#1F242C",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#A1A7B1",
+        "roles": {
+          "border_active": "#E11D48",
+          "badge_neutral": "#2D333B"
+        }
+      },
+      {
+        "name": "stage_not_started",
+        "kind": "solid",
+        "bg": "#21262D",
+        "on_bg": "#C9D1D9",
+        "on_bg_muted": "#8B949E",
+        "roles": {
+          "badge_text": "#8B949E",
+          "border": "#30363D"
+        }
+      },
+      {
+        "name": "stage_in_progress",
+        "kind": "solid",
+        "bg": "#422006",
+        "on_bg": "#FEF08A",
+        "on_bg_muted": "#FDE047",
+        "roles": {
+          "badge_text": "#F59E0B",
+          "border": "#854D0E"
+        }
+      },
+      {
+        "name": "stage_completed",
+        "kind": "solid",
+        "bg": "#064E3B",
+        "on_bg": "#A7F3D0",
+        "on_bg_muted": "#6EE7B7",
+        "roles": {
+          "badge_text": "#10B981",
+          "border": "#047857"
+        }
+      },
+      {
+        "name": "wimed_brand_badge",
+        "kind": "solid",
+        "bg": "#E11D48",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#FFE4E6"
+      },
+      {
+        "name": "modal_overlay",
+        "kind": "glass",
+        "contrast_against": "#0D1117",
+        "guarantee": "backdrop-blur-md bg-black/80",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#9CA3AF"
+      }
+    ],
+    "accent": "#E11D48",
+    "on_accent": "#FFFFFF",
+    "wimed_red": "#E11D48",
+    "wimed_red_dark": "#9F1239",
+    "wimed_red_light": "#FFE4E6"
+  },
+  "brand_identity": {
+    "name": "WIMED Montaż Portal",
+    "company": "WIMED Oznakowanie Dróg & Bezpieczeństwo Ruchu Drogowego",
+    "tagline": "System Rozliczania i Monitoringu Zadań Montażowych",
+    "logo_spec": "WIMED emblem with iconic bold industrial red badge (E11D48) featuring sharp hexagonal/shield industrial styling and typography 'WIMED' in heavy geometric condensed sans + sub-label 'MONTAŻ & INFRASTRUKTURA'",
+    "language": "pl-PL (Polish, Polish currency/date formatting: dd.MM.yyyy or d MMMM yyyy, np. 24.08.2026 r.)"
+  },
+  "entry_surfaces": {
+    "/": "industrial command center — top WIMED brand header with quick search & new task CTA, full-width 4-stage pipeline summary cards, dense high-visibility assembly progress table with stage badges, quick copy link and filter tabs",
+    "/zadanie/:id": "split public assembly stage passport — task header with client & address info + copy link CTA left, interactive 4-stage accordion/tab workflow with per-stage status toggler, author photo uploader and rich photo gallery with lightbox on the right"
+  },
+  "stages_definition": [
+    {
+      "id": "produkcja",
+      "name": "Produkcja",
+      "description": "Prefabrykacja konstrukcji stalowych, tablic drogowych, barier i znaków w zakładzie WIMED",
+      "icon": "Factory",
+      "sample_photo": "https://images.unsplash.com/photo-1564182842834-681b7be6de4b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxpbmR1c3RyaWFsJTIwc3RlZWwlMjBmYWJyaWNhdGlvbiUyMG1ldGFsJTIwYXNzZW1ibHklMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTU2MDE2NDB8MA&ixlib=rb-4.1.0&q=85"
+    },
+    {
+      "id": "pakowanie",
+      "name": "Pakowanie",
+      "description": "Zabezpieczenie antykorozyjne, kompletowanie osprzętu montażowego i paletowanie ładunku",
+      "icon": "PackageCheck",
+      "sample_photo": "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwxfHx3YXJlaG91c2UlMjBsb2dpc3RpY3MlMjBwYWNrYWdpbmclMjBzaGlwcGluZyUyMGRlbGl2ZXJ5fGVufDB8fHx8MTc5NTYwMTY0MHww&ixlib=rb-4.1.0&q=85"
+    },
+    {
+      "id": "dostawa_rozladunek",
+      "name": "Dostawa i rozładunek",
+      "description": "Transport na miejsce inwestycji, weryfikacja zgodności z WZ oraz rozładunek HDS",
+      "icon": "Truck",
+      "sample_photo": "https://images.pexels.com/photos/5025635/pexels-photo-5025635.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    },
+    {
+      "id": "montaz",
+      "name": "Montaż",
+      "description": "Prace fundamentowe, osadzenie słupów/barier, montaż tablic i końcowy odbiór techniczny",
+      "icon": "HardHat",
+      "sample_photo": "https://images.pexels.com/photos/18194443/pexels-photo-18194443.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    }
+  ],
+  "stage_statuses": [
+    {
+      "id": "nie_rozpoczety",
+      "label": "Nie rozpoczęty",
+      "color": "bg-slate-800 text-slate-300 border-slate-700",
+      "dot_color": "bg-slate-500"
+    },
+    {
+      "id": "w_trakcie",
+      "label": "W trakcie",
+      "color": "bg-amber-950/70 text-amber-300 border-amber-600/50",
+      "dot_color": "bg-amber-400 animate-pulse"
+    },
+    {
+      "id": "ukonczony",
+      "label": "Ukończony",
+      "color": "bg-emerald-950/70 text-emerald-300 border-emerald-600/50",
+      "dot_color": "bg-emerald-400"
+    }
+  ],
+  "image_urls": {
+    "brand_and_stages": [
+      {
+        "category": "produkcja",
+        "url": "https://images.unsplash.com/photo-1564182842834-681b7be6de4b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxpbmR1c3RyaWFsJTIwc3RlZWwlMjBmYWJyaWNhdGlvbiUyMG1ldGFsJTIwYXNzZW1ibHklMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTU2MDE2NDB8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Obróbka konstrukcji stalowej w zakładzie WIMED",
+        "suggested_use": "Hero/Card thumbnail for stage Produkcja"
+      },
+      {
+        "category": "produkcja_cutting",
+        "url": "https://images.unsplash.com/photo-1735494033576-9c882e80504c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHw0fHxpbmR1c3RyaWFsJTIwc3RlZWwlMjBmYWJyaWNhdGlvbiUyMG1ldGFsJTIwYXNzZW1ibHklMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTU2MDE2NDB8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Cięcie laserowe elementów tablicy",
+        "suggested_use": "Sample photo in gallery for Produkcja"
+      },
+      {
+        "category": "pakowanie",
+        "url": "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwxfHx3YXJlaG91c2UlMjBsb2dpc3RpY3MlMjBwYWNrYWdpbmclMjBzaGlwcGluZyUyMGRlbGl2ZXJ5fGVufDB8fHx8MTc5NTYwMTY0MHww&ixlib=rb-4.1.0&q=85",
+        "description": "Magazyn wysyłkowy i przygotowanie palet montażowych",
+        "suggested_use": "Hero/Card thumbnail for stage Pakowanie"
+      },
+      {
+        "category": "dostawa_rozladunek",
+        "url": "https://images.pexels.com/photos/5025635/pexels-photo-5025635.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Transport i protokół przekazania elementów na budowie",
+        "suggested_use": "Hero/Card thumbnail for stage Dostawa i rozładunek"
+      },
+      {
+        "category": "montaz",
+        "url": "https://images.pexels.com/photos/18194443/pexels-photo-18194443.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Montaż konstrukcji drogowych i barier przez ekipę monterów",
+        "suggested_use": "Hero/Card thumbnail for stage Montaż"
+      },
+      {
+        "category": "montaz_field",
+        "url": "https://images.pexels.com/photos/9258891/pexels-photo-9258891.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Prace drogowe i posadowienie oznakowania",
+        "suggested_use": "Sample photo in gallery for Montaż"
+      }
+    ]
+  },
+  "key_features_and_architecture": {
+    "no_login_public_access": "Full open collaboration model: Anyone can create tasks, copy public task link, change stage statuses, upload photos with author name, description, and timestamp.",
+    "task_fields": [
+      { "name": "nazwa", "label": "Nazwa zadania", "type": "string", "example": "Montaż tablic kierunkowych DK79 węzeł Piaseczno" },
+      { "name": "klient", "label": "Klient / Inwestor", "type": "string", "example": "GDDKiA Oddział Warszawa / STRABAG" },
+      { "name": "adres", "label": "Lokalizacja / Adres montażu", "type": "string", "example": "DK79 km 18+400, Piaseczno (woj. mazowieckie)" },
+      { "name": "termin", "label": "Termin realizacji (Deadline)", "type": "date", "example": "2026-09-15" },
+      { "name": "opis", "label": "Opis i zakres prac", "type": "textarea", "example": "Dostawa i montaż 4 szt. bramowych konstrukcji wsporczych, oznakowania E-1, E-2 oraz barier energochłonnych N2-W4." },
+      { "name": "numer_zlecenia", "label": "Nr zlecenia WIMED", "type": "string", "example": "WMD/2026/08/042" }
+    ],
+    "stages": [
+      "produkcja",
+      "pakowanie",
+      "dostawa_rozladunek",
+      "montaz"
+    ],
+    "photo_object_schema": {
+      "id": "uuid string",
+      "stage_id": "produkcja | pakowanie | dostawa_rozladunek | montaz",
+      "photo_url": "string (direct url or uploaded image base64/blob)",
+      "description": "string (np. 'Wylanie ław fundamentowych pod słup P-1')",
+      "author_name": "string (Imię i nazwisko / Ekipa montażowa, np. 'Tomasz Nowak (Brygada 2)')",
+      "created_at": "ISO date string (np. '2026-08-24T14:30:00Z')"
+    }
+  },
+  "ui_components_spec": {
+    "dashboard_page": {
+      "header": "WIMED Header with logo mark, title 'System Rozliczania Zadań Montażowych', search bar, filter by status (Wszystkie, W toku, Zakończone, Opóźnione), and high-contrast red 'Nowe Zadanie Montażowe' button with Plus icon.",
+      "summary_metrics": "4 top analytical cards: 1. Łącznie zadań, 2. W trakcie produkcji/pakowania, 3. W dostawie, 4. Ukończone montaże (100% zrealizowane).",
+      "progress_table": {
+        "columns": [
+          "Nr & Nazwa zadania (z klientem i adresem)",
+          "Termin",
+          "Produkcja (Status Badge + Liczba zdjęć)",
+          "Pakowanie (Status Badge + Liczba zdjęć)",
+          "Dostawa i rozładunek (Status Badge + Liczba zdjęć)",
+          "Montaż (Status Badge + Liczba zdjęć)",
+          "Postęp ogólny (%)",
+          "Akcje (Kopiuj link publiczny, Zobacz szczegóły, Edytuj status)"
+        ],
+        "interaction": "Clicking a row or clicking 'Szczegóły' opens public task view. Copy button puts link with toast notification."
+      },
+      "create_dialog": "Accessible modal with validation for Nazwa, Klient, Adres, Termin (shadcn Calendar), Opis, initial statuses (default 'nie_rozpoczety')."
+    },
+    "public_task_page": {
+      "breadcrumbs": "Powrót do listy zadań | Zadanie #{id}",
+      "top_card": "Industrial card with Crimson Red accent border, task title, Client, Address with Google Maps link shortcut, Deadline pill, Overall Progress Bar (0% - 100%), and a highlighted 'Kopiuj link do zadania' button (with clipboard checkmark effect).",
+      "stages_tabs_or_accordion": "4 dedicated interactive stage panels: [1. Produkcja, 2. Pakowanie, 3. Dostawa i rozładunek, 4. Montaż].",
+      "stage_panel_features": [
+        "Stage Status Selector: 3 large clickable toggle buttons (Nie rozpoczęty, W trakcie, Ukończony) allowing immediate status updates without auth.",
+        "Add Photo Section: Card with drag-and-drop or file upload (supports uploading custom file or picking industrial sample), inputs for 'Opis zdjęcia / Uwagi z etapu', 'Imię i nazwisko osoby dodającej (np. Jan Kowalski - Kierownik Montażu)', and 'Data i godzina'.",
+        "Photo Gallery Grid: Responsive cards showing thumbnail, date pill, author badge, description text, and click-to-enlarge Lightbox modal.",
+        "Empty state: 'Brak zdjęć dla tego etapu. Dodaj pierwsze zdjęcie z realizacji poniżej.'"
+      ],
+      "lightbox_modal": "Full screen photo preview with zoom, description overlay, author credit, and date added."
+    }
+  },
+  "layout_and_spacing": {
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+    "card_padding": "p-6 sm:p-8",
+    "table_padding": "px-4 py-3.5",
+    "gap_system": "gap-4 sm:gap-6 lg:gap-8",
+    "border_radius": "rounded-xl for cards, rounded-lg for buttons and badges, rounded-full for status indicators"
+  },
+  "motion_and_animations": {
+    "library": "motion/react",
+    "entrance": "fade-in up with 0.25s duration and 0.05s stagger on table rows and gallery items",
+    "hover": "scale-[1.01] transition on interactive cards, glow effect on red CTA buttons (hover:shadow-[0_0_20px_rgba(225,29,72,0.35)])",
+    "toast": "sonner toast at bottom-right with richColors",
+    "clipboard": "Smooth tick icon transition when clicking Copy Link"
+  },
+  "accessibility": {
+    "contrast_standard": "WCAG AA / APCA compliant: Crisp white/light slate text against #0D1117 and #161B22. Red buttons (#E11D48) with stark white text (contrast > 4.5:1).",
+    "keyboard_navigation": "All modal triggers, stage selectors, and copy buttons fully focusable with focus:ring-2 focus:ring-rose-500.",
+    "aria_labels": "All icon-only buttons (copy link, close modal, photo zoom) must have descriptive aria-label in Polish.",
+    "data_testid_manifest": [
+      "app-header",
+      "wimed-logo",
+      "btn-new-task",
+      "input-search-tasks",
+      "filter-status-select",
+      "table-tasks-progress",
+      "task-row-*",
+      "btn-copy-link-*",
+      "btn-view-task-*",
+      "modal-create-task",
+      "form-create-task",
+      "input-task-name",
+      "input-task-client",
+      "input-task-address",
+      "input-task-deadline",
+      "input-task-description",
+      "btn-submit-task",
+      "public-task-view",
+      "task-progress-bar",
+      "btn-copy-public-link",
+      "stage-tab-*",
+      "stage-status-selector-*",
+      "btn-status-nie-rozpoczety",
+      "btn-status-w-trakcie",
+      "btn-status-ukonczony",
+      "form-add-photo-*",
+      "input-photo-author",
+      "input-photo-desc",
+      "input-photo-file",
+      "btn-upload-photo",
+      "gallery-grid-*",
+      "photo-card-*",
+      "modal-photo-lightbox"
+    ]
+  },
+  "instructions_to_main_agent": {
+    "app_structure": [
+      "Backend (FastAPI in backend/):",
+      "- Model Task: id (uuid), nazwa (str), klient (str), adres (str), termin (str/iso), opis (str), numer_zlecenia (str), stages (dict of stage_id -> {status: 'nie_rozpoczety'|'w_trakcie'|'ukonczony', photos: list of Photo}), created_at (datetime), updated_at (datetime).",
+      "- Model Photo: id (uuid), stage_id (str), photo_url (str), description (str), author_name (str), created_at (datetime).",
+      "- Endpoints:",
+      "  - GET /api/tasks -> list all tasks with summary & progress %",
+      "  - POST /api/tasks -> create new task",
+      "  - GET /api/tasks/{id} -> get task detail with all stages & photos",
+      "  - PATCH /api/tasks/{id}/stages/{stage_id}/status -> update stage status (open to anyone with link)",
+      "  - POST /api/tasks/{id}/stages/{stage_id}/photos -> add photo with author name, description (accepts JSON with photo_url or multipart/base64)",
+      "  - DELETE /api/tasks/{id}/photos/{photo_id} -> optional remove photo",
+      "- Create seed data in backend/seed.py with 4-5 realistic Polish WIMED road assembly projects (DK79 Piaseczno, A2 Węzeł Łódź Północ, S8 Radzymin, Obwodnica Krakowa) containing rich pre-filled stages and photos.",
+      "Frontend (Vite/React 19 in frontend/src/):",
+      "- Routes in frontend/src/App.tsx:",
+      "  - '/' -> Dashboard (Tasks progress table with 4 columns: Produkcja, Pakowanie, Dostawa i rozładunek, Montaż, search, metrics, Create Task dialog)",
+      "  - '/zadanie/:id' -> Public Task Detail Page (Stage workflow, manual status buttons, photo uploader with author name, photo gallery with lightbox)",
+      "- Polish language everywhere (Polski interfejs, profesjonalna terminologia montażowa i drogowa WIMED).",
+      "- Red WIMED branding palette: Primary Crimson/Rose #E11D48, dark industrial slate surfaces (#0D1117, #161B22), sharp borders, glowing accents."
+    ],
+    "universal_polish_terms": {
+      "produkcja": "Produkcja",
+      "pakowanie": "Pakowanie",
+      "dostawa_rozladunek": "Dostawa i rozładunek",
+      "montaz": "Montaż",
+      "nie_rozpoczety": "Nie rozpoczęty",
+      "w_trakcie": "W trakcie",
+      "ukonczony": "Ukończony",
+      "kopiuj_link": "Kopiuj link do zadania",
+      "link_skopiowany": "Link do zadania został skopiowany do schowka!",
+      "dodaj_zdjecie": "Dodaj zdjęcie z etapu",
+      "autor_zdjecia": "Imię i nazwisko (autor wpisu)",
+      "opis_zdjecia": "Opis wykonanych prac / stan elementu"
+    }
+  }
+}

@@ -44,3 +44,21 @@ export const apiPut = <T>(path: string, body?: JsonBody) => request<T>("PUT", pa
 export const apiPatch = <T>(path: string, body?: JsonBody) =>
   request<T>("PATCH", path, body ?? null);
 export const apiDelete = <T>(path: string) => request<T>("DELETE", path);
+
+// Multipart upload (photos). Browser sets the multipart boundary header itself.
+export async function apiUpload<T>(path: string, form: FormData): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, { method: "POST", body: form });
+  if (!res.ok) {
+    const errBody = await res.json().catch(() => null);
+    throw new ApiError(res.status, errBody);
+  }
+  return (await res.json()) as T;
+}
+
+export function apiErrorMessage(err: unknown, fallback = "Wystąpił błąd"): string {
+  if (err instanceof ApiError && err.body && typeof err.body === "object" && "detail" in err.body) {
+    const detail = (err.body as { detail: unknown }).detail;
+    if (typeof detail === "string") return detail;
+  }
+  return fallback;
+}
