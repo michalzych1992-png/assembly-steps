@@ -5,17 +5,16 @@ import { STATUS_LABEL } from "@/lib/tasks";
 
 export function WimedLogo({ className }: { className?: string }) {
   return (
-    <Link to="/" data-testid="wimed-logo" className={cn("group flex items-center gap-3", className)}>
-      <span className="relative grid h-10 w-10 place-items-center rounded-md bg-wimed shadow-[0_0_24px_rgba(225,29,72,0.35)] transition-transform duration-200 group-hover:-rotate-3">
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" aria-hidden>
-          <path d="M3 6l3.5 12L12 8l5.5 10L21 6" />
-        </svg>
-      </span>
-      <span className="leading-none">
-        <span className="block font-heading text-xl font-extrabold tracking-[0.12em] text-white">WIMED</span>
-        <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          Zadania montażowe
-        </span>
+    <Link to="/" data-testid="wimed-logo" aria-label="WIMED – strona główna" className={cn("group flex items-center gap-4", className)}>
+      <img
+        src="/wimed-logo.svg"
+        alt="WIMED"
+        className="h-8 w-auto transition-[filter] duration-200 group-hover:drop-shadow-[0_0_12px_rgba(207,33,43,0.55)] sm:h-9"
+      />
+      <span className="hidden border-l border-[#30363D] pl-4 text-[10px] font-semibold uppercase leading-tight tracking-[0.2em] text-muted-foreground sm:block">
+        Zadania
+        <br />
+        montażowe
       </span>
     </Link>
   );

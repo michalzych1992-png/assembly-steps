@@ -16,6 +16,8 @@ No auth: anyone can create tasks; anyone with a task link can change stage statu
 - GET /photos/{id}/file → image bytes
 
 ## Frontend
+- Header shows the official WIMED logo (`frontend/public/wimed-logo.svg`, taken from wimed.pl; the same file is in `backend/assets/` for the PDF)
+- PDF report: GET /api/tasks/{id}/report.pdf (reportlab + svglib, Liberation Sans fonts in backend/assets/fonts). Contains task details, stage summary, and per-stage photos with description, author, and date. Download buttons: "Pobierz raport PDF" on the task page and a FileDown icon in the table row.
 - `/` dashboard: progress table (4 stage columns + photo counts + progress bar), metrics, search, "Nowe zadanie" dialog, copy-link button
 - `/zadanie/:id` public task page: stage tabs, status toggle buttons, add-photo form (name stored in localStorage), gallery, lightbox
 

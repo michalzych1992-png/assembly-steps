@@ -58,6 +58,8 @@ export const STATUS_LABEL: Record<StageStatus, string> = {
 };
 
 export const photoUrl = (id: string) => `/api/photos/${id}/file`;
+// Plain download link (browser navigation, not a fetch) — same relative /api path through the proxy.
+export const reportUrl = (id: string) => `/api/tasks/${id}/report.pdf`;
 export const publicTaskUrl = (id: string) => `${window.location.origin}/zadanie/${id}`;
 
 export function useTasks() {

@@ -2,9 +2,9 @@ import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
-import { ArrowLeft, Calendar, Camera, Check, Copy, ImagePlus, MapPin, User } from "lucide-react";
+import { ArrowLeft, Calendar, Camera, Check, Copy, FileDown, ImagePlus, MapPin, User } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ import {
   compressImage,
   photoUrl,
   publicTaskUrl,
+  reportUrl,
   useAddPhoto,
   useTask,
   useUpdateStage,
@@ -231,15 +232,25 @@ function TaskHeader({ task }: { task: TaskDetail }) {
           </div>
           {task.opis && <p data-testid="task-description" className="mt-4 max-w-3xl whitespace-pre-line leading-relaxed text-foreground/85">{task.opis}</p>}
         </div>
-        <Button
-          data-testid="btn-copy-public-link"
-          onClick={copy}
-          variant="outline"
-          className="shrink-0 gap-2 border-wimed/40 hover:border-wimed hover:bg-wimed/10"
-        >
-          {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
-          {copied ? "Skopiowano" : "Kopiuj link do zadania"}
-        </Button>
+        <div className="flex shrink-0 flex-col gap-2 sm:flex-row lg:flex-col">
+          <Button
+            data-testid="btn-copy-public-link"
+            onClick={copy}
+            variant="outline"
+            className="gap-2 border-wimed/40 hover:border-wimed hover:bg-wimed/10"
+          >
+            {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
+            {copied ? "Skopiowano" : "Kopiuj link do zadania"}
+          </Button>
+          <a
+            href={reportUrl(task.id)}
+            download
+            data-testid="btn-download-report"
+            className={cn(buttonVariants(), "gap-2 hover:bg-wimed-dark hover:shadow-[0_0_20px_rgba(225,29,72,0.35)]")}
+          >
+            <FileDown className="h-4 w-4" /> Pobierz raport PDF
+          </a>
+        </div>
       </div>
       <div className="mt-6 grid gap-3 border-t border-border pt-5 sm:grid-cols-[1fr_auto] sm:items-center">
         <ProgressBar value={task.progress} testId="task-progress-bar" />

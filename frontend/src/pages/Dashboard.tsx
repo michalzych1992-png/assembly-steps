@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { Camera, Copy, ExternalLink, Search } from "lucide-react";
+import { Camera, Copy, ExternalLink, FileDown, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { CreateTaskDialog } from "@/components/CreateTaskDialog";
 import { ProgressBar, StatusBadge, WimedLogo } from "@/components/brand";
 import { cn } from "@/lib/utils";
-import { STAGES, publicTaskUrl, useTasks } from "@/lib/tasks";
+import { STAGES, publicTaskUrl, reportUrl, useTasks } from "@/lib/tasks";
 import type { TaskSummary } from "@/lib/tasks";
 
 async function copyLink(id: string) {
@@ -145,6 +145,16 @@ export default function Dashboard() {
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
+                      <a
+                        href={reportUrl(t.id)}
+                        download
+                        aria-label="Pobierz raport PDF"
+                        title="Pobierz raport PDF"
+                        data-testid={`btn-report-${t.id}`}
+                        className={buttonVariants({ variant: "ghost", size: "icon-sm" })}
+                      >
+                        <FileDown className="h-4 w-4" />
+                      </a>
                       <Link
                         to={`/zadanie/${t.id}`}
                         aria-label="Otwórz zadanie"

@@ -1,3 +1,6 @@
+import asyncio
+import re
+import unicodedata
 from datetime import timezone
 from typing import List
 
@@ -5,6 +8,7 @@ from bson import Binary
 from fastapi import APIRouter, File, Form, HTTPException, Response, UploadFile
 
 from lib.db import db
+from lib.report import build_task_pdf
 from models.tasks import (
     STAGES,
     Photo,
@@ -117,6 +121,24 @@ async def add_photo(
     await db.photo_files.insert_one({"id": photo.id, "data": Binary(data), "content_type": content_type})
     await db.photos.insert_one(photo.model_dump())
     return photo
+
+
+@router.get("/tasks/{task_id}/report.pdf")
+async def task_report(task_id: str):
+    doc = await _get_task_doc(task_id)
+    photos = [_aware(p) for p in await db.photos.find({"task_id": task_id}, {"_id": 0}).to_list(2000)]
+    files = {
+        f["id"]: bytes(f["data"])
+        async for f in db.photo_files.find({"id": {"$in": [p["id"] for p in photos]}})
+    }
+    pdf = await asyncio.to_thread(build_task_pdf, doc, photos, files, _progress(doc["stages"]))
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", unicodedata.normalize("NFKD", doc["nazwa"]).encode("ascii", "ignore").decode()).strip("-")
+    filename = f"raport-{slug or 'zadanie'}.pdf"
+    return Response(
+        content=pdf,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @router.get("/photos/{photo_id}/file")
