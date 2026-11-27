@@ -1,7 +1,7 @@
 import asyncio
 import re
 import unicodedata
-from datetime import timezone
+from datetime import datetime, timezone
 from typing import List
 
 from bson import Binary
@@ -22,6 +22,7 @@ from models.tasks import (
 router = APIRouter()
 
 MAX_PHOTO_BYTES = 12 * 1024 * 1024
+ACTIVE = {"deleted_at": None}  # matches photos never soft-deleted (field missing or null)
 STATUS_WEIGHT = {"nie_rozpoczety": 0, "w_trakcie": 0.5, "ukonczony": 1}
 
 
@@ -46,7 +47,7 @@ async def _get_task_doc(task_id: str) -> dict:
 async def _photo_counts(task_ids: List[str]) -> dict:
     counts: dict = {tid: {s: 0 for s in STAGES} for tid in task_ids}
     pipeline = [
-        {"$match": {"task_id": {"$in": task_ids}}},
+        {"$match": {"task_id": {"$in": task_ids}, **ACTIVE}},
         {"$group": {"_id": {"t": "$task_id", "s": "$stage"}, "n": {"$sum": 1}}},
     ]
     async for row in db.photos.aggregate(pipeline):
@@ -73,12 +74,33 @@ async def get_task(task_id: str):
     doc = await _get_task_doc(task_id)
     photos = [
         Photo(**_aware(p))
-        for p in await db.photos.find({"task_id": task_id}, {"_id": 0}).sort("created_at", -1).to_list(2000)
+        for p in await db.photos.find({"task_id": task_id, **ACTIVE}, {"_id": 0}).sort("created_at", -1).to_list(2000)
     ]
     counts = {s: 0 for s in STAGES}
     for p in photos:
         counts[p.stage] += 1
     return TaskDetail(**doc, photo_counts=counts, progress=_progress(doc["stages"]), photos=photos)
+
+
+@router.put("/tasks/{task_id}", response_model=TaskSummary)
+async def update_task(task_id: str, payload: TaskCreate):
+    await _get_task_doc(task_id)
+    await db.tasks.update_one({"id": task_id}, {"$set": payload.model_dump()})
+    doc = await _get_task_doc(task_id)
+    counts = await _photo_counts([task_id])
+    return TaskSummary(**doc, photo_counts=counts[task_id], progress=_progress(doc["stages"]))
+
+
+@router.delete("/tasks/{task_id}/photos/{photo_id}", status_code=204)
+async def delete_photo(task_id: str, photo_id: str):
+    # Soft delete: anyone with the link can remove a photo, so keep it recoverable.
+    res = await db.photos.update_one(
+        {"id": photo_id, "task_id": task_id, **ACTIVE},
+        {"$set": {"deleted_at": datetime.now(timezone.utc)}},
+    )
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Nie znaleziono zdjęcia")
+    return Response(status_code=204)
 
 
 @router.patch("/tasks/{task_id}/stages/{stage}", response_model=TaskSummary)
@@ -126,7 +148,7 @@ async def add_photo(
 @router.get("/tasks/{task_id}/report.pdf")
 async def task_report(task_id: str):
     doc = await _get_task_doc(task_id)
-    photos = [_aware(p) for p in await db.photos.find({"task_id": task_id}, {"_id": 0}).to_list(2000)]
+    photos = [_aware(p) for p in await db.photos.find({"task_id": task_id, **ACTIVE}, {"_id": 0}).to_list(2000)]
     files = {
         f["id"]: bytes(f["data"])
         async for f in db.photo_files.find({"id": {"$in": [p["id"] for p in photos]}})

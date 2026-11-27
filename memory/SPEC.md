@@ -11,6 +11,8 @@ No auth: anyone can create tasks; anyone with a task link can change stage statu
 - GET /tasks → TaskSummary[] (photo_counts per stage, progress 0-100: ukonczony=1, w_trakcie=0.5 per stage)
 - POST /tasks (TaskCreate) → 201
 - GET /tasks/{id} → TaskDetail (+ photos)
+- PUT /tasks/{id} (TaskCreate) → edits nazwa/klient/adres/termin/opis (statuses and photos untouched)
+- DELETE /tasks/{id}/photos/{photo_id} → 204, SOFT delete (sets photos.deleted_at; file kept). All photo queries filter deleted_at=None. Recover: unset deleted_at in Mongo.
 - PATCH /tasks/{id}/stages/{stage} {status}
 - POST /tasks/{id}/photos multipart: stage, author, description, file (image/*, max 12 MB; the client downscales to 1920px JPEG)
 - GET /photos/{id}/file → image bytes

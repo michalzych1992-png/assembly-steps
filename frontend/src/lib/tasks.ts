@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiGet, apiPatch, apiPost, apiUpload } from "@/lib/api";
+import { apiDelete, apiGet, apiPatch, apiPost, apiPut, apiUpload } from "@/lib/api";
 
 // Mirrors backend/models/tasks.py
 export type StageId = "produkcja" | "pakowanie" | "dostawa_rozladunek" | "montaz";
@@ -75,6 +75,28 @@ export function useCreateTask() {
   return useMutation({
     mutationFn: (body: TaskCreate) => apiPost<TaskSummary>("/tasks", body),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks"] }),
+  });
+}
+
+export function useUpdateTask(taskId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: TaskCreate) => apiPut<TaskSummary>(`/tasks/${taskId}`, body),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["task", taskId] });
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+}
+
+export function useDeletePhoto(taskId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (photoId: string) => apiDelete<void>(`/tasks/${taskId}/photos/${photoId}`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["task", taskId] });
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+    },
   });
 }
 

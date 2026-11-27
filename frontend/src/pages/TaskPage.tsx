@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
-import { ArrowLeft, Calendar, Camera, Check, Copy, FileDown, ImagePlus, MapPin, User } from "lucide-react";
+import { ArrowLeft, Calendar, Camera, Check, Copy, FileDown, ImagePlus, MapPin, Trash2, User } from "lucide-react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { ProgressBar, StatusBadge, WimedLogo } from "@/components/brand";
+import { EditTaskDialog } from "@/components/CreateTaskDialog";
 import { apiErrorMessage } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import {
@@ -21,6 +22,7 @@ import {
   publicTaskUrl,
   reportUrl,
   useAddPhoto,
+  useDeletePhoto,
   useTask,
   useUpdateStage,
 } from "@/lib/tasks";
@@ -233,6 +235,7 @@ function TaskHeader({ task }: { task: TaskDetail }) {
           {task.opis && <p data-testid="task-description" className="mt-4 max-w-3xl whitespace-pre-line leading-relaxed text-foreground/85">{task.opis}</p>}
         </div>
         <div className="flex shrink-0 flex-col gap-2 sm:flex-row lg:flex-col">
+          <EditTaskDialog task={task} />
           <Button
             data-testid="btn-copy-public-link"
             onClick={copy}
@@ -271,7 +274,25 @@ export default function TaskPage() {
   const { data, isError, isLoading } = useTask(id);
   const [stage, setStage] = useState<StageId>("produkcja");
   const [lightbox, setLightbox] = useState<Photo | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const del = useDeletePhoto(id);
   const task = isError ? undefined : data;
+
+  const closeLightbox = () => {
+    setLightbox(null);
+    setConfirmDelete(false);
+  };
+
+  const removePhoto = () => {
+    if (!lightbox) return;
+    del.mutate(lightbox.id, {
+      onSuccess: () => {
+        toast.success("Zdjęcie usunięte");
+        closeLightbox();
+      },
+      onError: (e) => toast.error(apiErrorMessage(e, "Nie udało się usunąć zdjęcia")),
+    });
+  };
 
   return (
     <div className="min-h-screen" data-testid="public-task-view">
@@ -335,18 +356,41 @@ export default function TaskPage() {
         )}
       </main>
 
-      <Dialog open={!!lightbox} onOpenChange={(o) => !o && setLightbox(null)}>
+      <Dialog open={!!lightbox} onOpenChange={(o) => !o && closeLightbox()}>
         <DialogContent data-testid="modal-photo-lightbox" className="max-w-[min(96vw,1100px)] gap-0 overflow-hidden p-0 sm:max-w-[min(96vw,1100px)]">
           {lightbox && (
             <>
-              <img src={photoUrl(lightbox.id)} alt={lightbox.description} className="max-h-[75vh] w-full bg-black object-contain" />
-              <div className="grid gap-2 p-5">
-                <DialogTitle className="text-base font-medium leading-relaxed">{lightbox.description}</DialogTitle>
-                <div className="flex flex-wrap gap-x-4 text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1"><User className="h-3 w-3" />{lightbox.author}</span>
-                  <span className="font-mono">Dodano: {fmtDateTime(lightbox.created_at)}</span>
-                  <span>Etap: {STAGES.find((x) => x.id === lightbox.stage)?.label}</span>
+              <img src={photoUrl(lightbox.id)} alt={lightbox.description} className="max-h-[70vh] w-full bg-black object-contain" />
+              <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-end sm:justify-between">
+                <div className="grid min-w-0 gap-2">
+                  <DialogTitle className="text-base font-medium leading-relaxed">{lightbox.description}</DialogTitle>
+                  <div className="flex flex-wrap gap-x-4 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1"><User className="h-3 w-3" />{lightbox.author}</span>
+                    <span className="font-mono">Dodano: {fmtDateTime(lightbox.created_at)}</span>
+                    <span>Etap: {STAGES.find((x) => x.id === lightbox.stage)?.label}</span>
+                  </div>
                 </div>
+                {confirmDelete ? (
+                  <div className="flex shrink-0 items-center gap-2" data-testid="photo-delete-confirm">
+                    <span className="text-sm text-muted-foreground">Usunąć to zdjęcie?</span>
+                    <Button variant="ghost" size="sm" data-testid="btn-cancel-delete-photo" onClick={() => setConfirmDelete(false)}>
+                      Anuluj
+                    </Button>
+                    <Button variant="destructive" size="sm" data-testid="btn-confirm-delete-photo" disabled={del.isPending} onClick={removePhoto}>
+                      {del.isPending ? "Usuwanie…" : "Tak, usuń"}
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    data-testid="btn-delete-photo"
+                    onClick={() => setConfirmDelete(true)}
+                    className="shrink-0 gap-1.5 text-muted-foreground hover:bg-red-950/50 hover:text-red-300"
+                  >
+                    <Trash2 className="h-4 w-4" /> Usuń zdjęcie
+                  </Button>
+                )}
               </div>
             </>
           )}
